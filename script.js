@@ -24,15 +24,22 @@ collisionLine.classList.add('collision-line');
 collisionLine.style.top = `${gameContainer.clientHeight - 20}px`; // Posición de la línea
 gameContainer.appendChild(collisionLine);
 
-document.addEventListener('mousemove', (event) => {
-    // Reproducir música de fondo
+function moveChef(x) {
 	backgroundMusic.volume = 0.2;
-    backgroundMusic.play();
-    const rect = gameContainer.getBoundingClientRect();
-    let x = event.clientX - rect.left;
-    if (x < 50) x = 50;
-    if (x > rect.width - 50) x = rect.width - 50;
-    chef.style.left = `${x}px`;
+	backgroundMusic.play();
+	const rect = gameContainer.getBoundingClientRect();
+	let positionX = x - rect.left;
+	if (positionX < 50) positionX = 50;
+	if (positionX > rect.width - 50) positionX = rect.width - 50;
+	chef.style.left = `${positionX}px`;
+}
+
+document.addEventListener('mousemove', (event) => {
+	moveChef(event.clientX);
+});
+
+document.addEventListener('touchmove', (event) => {
+	moveChef(event.touches[0].clientX);
 });
 
 function createMeta() {
