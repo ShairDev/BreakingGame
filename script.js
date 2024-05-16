@@ -43,6 +43,7 @@ function createMeta() {
         if (top < gameContainer.clientHeight) {
             meta.style.top = `${top + fallSpeed}px`;
             if (isCollision(chef, meta)) {
+				collisionSound.volume = 0.3;
                 collisionSound.currentTime = 0;
                 collisionSound.play();
                 score++;
@@ -95,7 +96,7 @@ function createRareItem() {
     }
 
     requestAnimationFrame(fall);
-    setTimeout(createRareItem, Math.random() * 15000 + 15000);
+    setTimeout(createRareItem, Math.random() * 10000 + 15000);
 }
 
 function createHarmfulItem() {
@@ -163,7 +164,7 @@ function createLifeItem() {
     }
 
     requestAnimationFrame(fall);
-    setTimeout(createLifeItem, Math.random() * 20000 + 20000);
+    setTimeout(createLifeItem, Math.random() * 25000 + 20000);
 }
 
 function loseLife() {
@@ -187,10 +188,11 @@ function updateLivesDisplay() {
     const hearts = livesDisplay.querySelectorAll('span');
     hearts.forEach((heart, index) => {
         if (index >= lives) {
-            heart.style.color = 'gray'; // Cambia el color de los corazones perdidos a gris
+            heart.style.display = 'none'; // Oculta los corazones perdidos
         } else {
-            heart.style.color = 'red'; // Asegura que los corazones ganados sean de color rojo
+            heart.style.display = 'inline'; // Asegura que los corazones ganados sean visibles
         }
+        heart.classList.toggle('gray', index >= lives);
     });
 }
 
@@ -224,10 +226,10 @@ function isOverlapping(leftPosition, width) {
     return false;
 }
 
-setTimeout(createRareItem, Math.random() * 15000 + 15000); // Iniciar rare item en un tiempo aleatorio entre 15-30 segundos // Inicia la generación del elemento raro al cargar el juego
+setTimeout(createRareItem, Math.random() * 10000 + 15000); // Iniciar rare item en un tiempo aleatorio entre 15-30 segundos // Inicia la generación del elemento raro al cargar el juego
 createMeta();
 setTimeout(createHarmfulItem, Math.random() * 5000 + 5000); // Start harmful item at a random time between 10-20 seconds
-setTimeout(createLifeItem, Math.random() * 20000 + 10000); // Life item appears every 20-40 seconds
+setTimeout(createLifeItem, Math.random() * 25000 + 10000); // Life item appears every 20-40 seconds
 
 setInterval(() => {
     fallSpeed += 0.2;
