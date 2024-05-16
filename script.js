@@ -220,10 +220,20 @@ function isOverlapping(leftPosition, width) {
     return false;
 }
 
-createMeta();
-createRareItem();
-createHarmfulItem();
-createLifeItem();
+function increaseLevel(){
+		fallSpeed += 2;
+		if(level > 1000)
+		{
+			level -= 1000;
+		}
+		setTimeout(increaseLevel, Math.random() * 5000); // Harmful item appears every 10-20 seconds
+	}
+
+setTimeout(createRareItem, Math.random() * 15000 + 15000);
+setTimeout(createMeta, Math.random() * 1000); // Inicia la generación de meta después de un segundo
+setTimeout(createHarmfulItem, Math.random() * 5000 + 5000);
+setTimeout(createLifeItem, Math.random() * 20000 + 10000);
+setTimeout(increaseLevel, Math.random() * 5000);
 
 setInterval(() => {
     fallSpeed += 0.2;
