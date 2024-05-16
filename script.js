@@ -187,11 +187,10 @@ function updateLivesDisplay() {
     const hearts = livesDisplay.querySelectorAll('span');
     hearts.forEach((heart, index) => {
         if (index >= lives) {
-            heart.style.display = 'none'; // Oculta los corazones perdidos
+            heart.style.color = 'gray'; // Cambia el color de los corazones perdidos a gris
         } else {
-            heart.style.display = 'inline'; // Asegura que los corazones ganados sean visibles
+            heart.style.color = 'red'; // Asegura que los corazones ganados sean de color rojo
         }
-        heart.classList.toggle('gray', index >= lives);
     });
 }
 
