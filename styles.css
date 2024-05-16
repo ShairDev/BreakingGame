@@ -1,0 +1,102 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('background.jpg'); /* Reemplaza con la ruta de tu imagen de fondo */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+#game-container {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    border: 2px solid white;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+}
+
+/* Agrega un estilo para el elemento raro */
+.meta, .rare-item, .harmful-item, .life-item {
+	position: absolute;
+	width: 30px;
+	height: 30px;
+}
+		
+.rare-item {
+	background-image: url('rare-item.png'); /* Replace with your rare item image */
+	background-size: cover;
+}
+
+.harmful-item {
+	background-image: url('harmful-item.png'); /* Replace with your harmful item image */
+	background-size: cover;
+}
+
+.meta {
+    background-image: url('meta.png'); /* Reemplaza con tu imagen de la meta */
+    background-size: cover;
+    animation: fall 4s linear infinite;
+}
+
+.life-item{
+	background-image: url('life-item.png'); /* Replace with your harmful item image */
+	background-size: cover;
+}
+
+#chef {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    background-image: url('chef.png'); /* Reemplaza con tu imagen del chef */
+    background-size: cover;
+    transform: translateX(-50%);
+}
+
+#chef.damage {
+	animation: damage-animation 0.5s ease;
+}
+@keyframes damage-animation {
+	0%, 100% { transform: scale(1); filter: grayscale(80%);}
+	50% { transform: scale(1.1); }
+}
+
+#game-info {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%; /* Ajustar el ancho según sea necesario */
+}
+
+#score, #lives {
+    font-size: 24px; /* Ajustar el tamaño de fuente según sea necesario */
+}
+
+#lives span {
+    color: red; /* Color inicial de los corazones */
+}
+
+#lives span.gray {
+    color: gray; /* Color de los corazones grises */
+}
+
+
+@keyframes fall {
+    from {
+        top: -30px;
+    }
+    to {
+        top: 600px;
+    }
+}

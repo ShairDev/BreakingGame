@@ -1,0 +1,42 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('background.jpg'); /* Ruta de tu imagen de fondo */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    font-family: 'Press Start 2P', cursive; /* Utilizamos una fuente retro */
+}
+
+#menu-container {
+    text-align: center;
+}
+
+#game-title {
+    font-size: 48px; /* Tamaño del título */
+    margin-top: 50px; /* Espaciado superior */
+}
+
+#button-container {
+    margin-top: 30px; /* Espaciado superior */
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 24px;
+    background-color: #007bff; /* Color de fondo del botón */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Transición suave */
+    margin: 10px; /* Espaciado entre botones */
+}
+
+button:hover {
+    background-color: #0056b3; /* Color de fondo del botón al pasar el ratón */
+}

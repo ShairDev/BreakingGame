@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breaking Fall</title>
+    <link rel="stylesheet" href="Game.css">
+</head>
+<body>
+	<div id="left-side" style="background-color: rgb(230,157,65);color: White; font-family: 'Press Start 2P', cursive; width: 230px; border-color: white; height: 480px; position: absolute; left: 50px; top: 50px; border-style: double; align-self: center; padding: 10px;">
+		<thead>
+			<tr>
+			<div>
+			<th><img src="meta.png" style="width: 40px; height: 40px; float: left; margin: 8px;"/> La meta, siempre que la captures ganarás +1 pero cuidado, a Walter no le hace gracia perderla!</th>
+			</div>
+			<div style="margin-top: 15px;">
+			<th><img src="harmful-item.png" style="width: 40px; height: 40px; float: left; margin: 8px;"/> El enemigo número 1 de Walter pero a la vez su némesis, cuidado con este "Pollero", es de pocas plumas!</th>
+			</div>
+			<div style="margin-top: 15px;">
+			<th><img src="rare-item.png" style="width: 40px; height: 40px; float: left; margin: 8px;"/> Este abogado, es tu mejor aliado. En problemas con tus puntos? Mejor llama a Saúl!</th>
+			</div>
+			<div style="margin-top: 15px;">
+			<th><img src="life-item.png" style="width: 40px; height: 40px; float: left; margin: 8px;"/> Jesse, el salvavidas de Walter para toda ocasión gracias a lo manipulable que es, te salvara siempre de una buena!</th>
+			</div>
+			</tr>
+		</thead>
+	</div>
+    <div id="menu-container">
+        <h1 id="game-title">Breaking Fall</h1>
+        <div id="button-container">
+            <button id="play-button">Jugar</button>
+            <button id="about-button">Acerca de</button>
+        </div>
+    </div>
+
+    <!-- Etiqueta <audio> para la música de fondo -->
+    <audio id="background-music" loop autoplay>
+        <source src="background_music.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script src="scriptGame.js"></script>
+</body>
+</html>
