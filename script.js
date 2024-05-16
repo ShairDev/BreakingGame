@@ -186,6 +186,11 @@ function gainLife() {
 function updateLivesDisplay() {
     const hearts = livesDisplay.querySelectorAll('span');
     hearts.forEach((heart, index) => {
+        if (index >= lives) {
+            heart.style.display = 'none'; // Oculta los corazones perdidos
+        } else {
+            heart.style.display = 'inline'; // Asegura que los corazones ganados sean visibles
+        }
         heart.classList.toggle('gray', index >= lives);
     });
 }
