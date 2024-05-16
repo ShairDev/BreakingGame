@@ -14,28 +14,29 @@ body {
 
 #game-container {
     position: relative;
-    width: 800px;
-    height: 600px;
+    width: 100%;
+    max-width: 800px;
+    height: 80vh;
+    max-height: 600px;
     border: 2px solid white;
     overflow: hidden;
     background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
 }
 
-/* Agrega un estilo para el elemento raro */
 .meta, .rare-item, .harmful-item, .life-item {
-	position: absolute;
-	width: 30px;
-	height: 30px;
+    position: absolute;
+    width: 30px;
+    height: 30px;
 }
-		
+
 .rare-item {
-	background-image: url('rare-item.png'); /* Replace with your rare item image */
-	background-size: cover;
+    background-image: url('rare-item.png'); /* Replace with your rare item image */
+    background-size: cover;
 }
 
 .harmful-item {
-	background-image: url('harmful-item.png'); /* Replace with your harmful item image */
-	background-size: cover;
+    background-image: url('harmful-item.png'); /* Replace with your harmful item image */
+    background-size: cover;
 }
 
 .meta {
@@ -44,28 +45,29 @@ body {
     animation: fall 4s linear infinite;
 }
 
-.life-item{
-	background-image: url('life-item.png'); /* Replace with your harmful item image */
-	background-size: cover;
+.life-item {
+    background-image: url('life-item.png'); /* Replace with your harmful item image */
+    background-size: cover;
 }
 
 #chef {
     position: absolute;
     bottom: 10px;
     left: 50%;
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
     background-image: url('chef.png'); /* Reemplaza con tu imagen del chef */
     background-size: cover;
     transform: translateX(-50%);
 }
 
 #chef.damage {
-	animation: damage-animation 0.5s ease;
+    animation: damage-animation 0.5s ease;
 }
+
 @keyframes damage-animation {
-	0%, 100% { transform: scale(1); filter: grayscale(80%);}
-	50% { transform: scale(1.1); }
+    0%, 100% { transform: scale(1); filter: grayscale(80%); }
+    50% { transform: scale(1.1); }
 }
 
 #game-info {
@@ -90,7 +92,6 @@ body {
 #lives span.gray {
     color: gray; /* Color de los corazones grises */
 }
-
 
 @keyframes fall {
     from {
