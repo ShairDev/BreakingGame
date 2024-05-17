@@ -43,68 +43,160 @@ document.addEventListener('touchmove', (event) => {
 });
 
 function createMeta() {
-    createFallingItem('meta', collisionSound, 1, 500);
-}
-
-function createRareItem() {
-    createFallingItem('rare-item', rareSound, 5, Math.random() * 15000 + 15000);
-}
-
-function createHarmfulItem() {
-    createFallingItem('harmful-item', harmfulSound, 0, Math.random() * level + 10000, loseLifeharmful, true);
-}
-
-function createLifeItem() {
-    createFallingItem('life-item', lifeSound, 0, Math.random() * 20000 + 30000, gainLife);
-}
-
-function createFallingItem(className, sound, scoreIncrement, delay, callback = null, damage = false) {
-    const item = document.createElement('div');
-    item.classList.add(className);
-    const maxLeftPosition = gameContainer.clientWidth - 30;
+    const meta = document.createElement('div');
+    meta.classList.add('meta');
+    meta.style.left = `${Math.random() * (gameContainer.clientWidth - 30)}px`;
+    const maxLeftPosition = gameContainer.clientWidth - 30; // El ancho máximo es el ancho del contenedor menos el ancho de la meta
     let leftPosition;
-
     do {
         leftPosition = Math.random() * maxLeftPosition;
-    } while (isOverlapping(leftPosition, item.clientWidth));
+    } while (isOverlapping(leftPosition, meta.clientWidth));
 
-    item.style.left = `${leftPosition}px`;
-    item.style.top = '0px';
-    gameContainer.appendChild(item);
+    meta.style.left = `${leftPosition}px`; // Ajustar la posición horizontal para que esté dentro de los límites del contenedor
+	gameContainer.appendChild(meta);
+    meta.style.top = '0px';
+    //const fallSpeed = 2; // You can adjust the speed here
 
     function fall() {
-        const top = parseInt(item.style.top);
+        const top = parseInt(meta.style.top);
         if (top < gameContainer.clientHeight) {
-            item.style.top = `${top + fallSpeed}px`;
-            if (isCollision(chef, item)) {
-                sound.currentTime = 0;
-                sound.play();
-                score += scoreIncrement;
+            meta.style.top = `${top + fallSpeed}px`;
+            if (isCollision(chef, meta)) {
+				collisionSound.volume = 0.5;
+				collisionSound.currentTime = 0; // Reiniciar el sonido para reproducirlo desde el principio
+				collisionSound.play(); // Reproducir el sonido de la colisión
+                score++;
                 scoreDisplay.textContent = `Score: ${score}`;
-                gameContainer.removeChild(item);
-                if (callback) callback(); 
-            } else if (top >= gameContainer.clientHeight - 20) {
-                if (damage && !isCollision(chef, item)) 
-				{
-                    loseLife();
-                }
-				else if (className == 'meta' && !isCollision(chef, item)) 
-				{
-					loseLife();
-				}
-                gameContainer.removeChild(item);
-            } else {
-                requestAnimationFrame(fall);
+                gameContainer.removeChild(meta);
+            } else if (top >= gameContainer.clientHeight - 20 && !isCollision(chef, meta)) {
+                loseLife();
+                gameContainer.removeChild(meta);
             }
+            requestAnimationFrame(fall);
         } else {
-            gameContainer.removeChild(item);
+            gameContainer.removeChild(meta);
         }
     }
 
     requestAnimationFrame(fall);
-    setTimeout(() => createFallingItem(className, sound, scoreIncrement, delay, callback, damage), delay);
+    setTimeout(createMeta, 500);
 }
 
+function createRareItem() 
+{
+	const rareItem = document.createElement('div');
+	rareItem.classList.add('rare-item');
+	const maxLeftPosition = gameContainer.clientWidth - 30;
+	rareItem.style.left = `${Math.random() * maxLeftPosition}px`;
+	let leftPosition;
+    do {
+        leftPosition = Math.random() * maxLeftPosition;
+    } while (isOverlapping(leftPosition, rareItem.clientWidth));
+	rareItem.style.left = `${leftPosition}px`;
+	gameContainer.appendChild(rareItem);
+	rareItem.style.top = '0px';
+	//const fallSpeed = 2;
+	function fall() {
+		const top = parseInt(rareItem.style.top);
+		if (top < gameContainer.clientHeight) {
+			rareItem.style.top = `${top + fallSpeed}px`;
+			if (isCollision(chef, rareItem)) {
+				rareSound.currentTime = 0; // Reiniciar el sonido para reproducirlo desde el principio
+				rareSound.play(); // Reproducir el sonido de la colisión
+				score += 5; // Rare items give more points
+				scoreDisplay.textContent = `Score: ${score}`;
+				gameContainer.removeChild(rareItem);
+			} else if (top >= gameContainer.clientHeight - 20) {
+				if (!isCollision(chef, collisionLine)) {
+					loseLife();
+				}
+				gameContainer.removeChild(rareItem);
+			} else {
+				requestAnimationFrame(fall);
+			}
+		} else {
+			gameContainer.removeChild(rareItem);
+		}
+	}
+
+	requestAnimationFrame(fall);
+	setTimeout(createRareItem, Math.random() * 15000 + 15000); // Rare item appears every 15-30 seconds
+}
+
+function createHarmfulItem() {
+		const harmfulItem = document.createElement('div');
+		harmfulItem.classList.add('harmful-item');
+		const maxLeftPosition = gameContainer.clientWidth - 30;
+		harmfulItem.style.left = `${Math.random() * maxLeftPosition}px`;
+		gameContainer.appendChild(harmfulItem);
+		let leftPosition;
+		do {
+			leftPosition = Math.random() * maxLeftPosition;
+		} while (isOverlapping(leftPosition, harmfulItem.clientWidth));
+		harmfulItem.style.left = `${leftPosition}px`;
+		gameContainer.appendChild(harmfulItem);
+		harmfulItem.style.top = '0px';
+
+		function fall() {
+		const top = parseInt(harmfulItem.style.top);
+		if (top < gameContainer.clientHeight) {
+			harmfulItem.style.top = `${top + fallSpeed}px`;
+			if (isCollision(chef, harmfulItem)) {
+				chef.classList.add('damage');
+				setTimeout(() => chef.classList.remove('damage'), 500); // Remove animation class after it completes
+				harmfulSound.currentTime = 0; // Reiniciar el sonido para reproducirlo desde el principio
+				harmfulSound.play(); // Reproducir el sonido de la colisión
+				loseLife();
+				gameContainer.removeChild(harmfulItem);
+			} else {
+				requestAnimationFrame(fall);
+			}
+		} else {
+			gameContainer.removeChild(harmfulItem);
+		}
+	}
+
+		requestAnimationFrame(fall);
+		setTimeout(createHarmfulItem, Math.random() * level + 10000); // Harmful item appears every 10-20 seconds
+	}
+	
+function createLifeItem() {
+		const lifeItem = document.createElement('div');
+		lifeItem.classList.add('life-item');
+		const maxLeftPosition = gameContainer.clientWidth - 30;
+		lifeItem.style.left = `${Math.random() * maxLeftPosition}px`;
+		gameContainer.appendChild(lifeItem);
+		//const fallSpeed = 2;
+		let leftPosition;
+		do {
+			leftPosition = Math.random() * maxLeftPosition;
+		} while (isOverlapping(leftPosition, lifeItem.clientWidth));
+		lifeItem.style.left = `${leftPosition}px`;
+		gameContainer.appendChild(lifeItem);
+		lifeItem.style.top = '0px';
+
+		function fall() {
+			const top = parseInt(lifeItem.style.top || 0);
+			if (top < gameContainer.clientHeight) {
+				lifeItem.style.top = `${top + fallSpeed}px`;
+				if (isCollision(chef, lifeItem)) {
+					lifeSound.currentTime = 0; // Reiniciar el sonido para reproducirlo desde el principio
+					lifeSound.play(); // Reproducir el sonido de la colisión
+					gainLife();
+					gameContainer.removeChild(lifeItem);
+				} else if (top >= gameContainer.clientHeight - 20) {
+					gameContainer.removeChild(lifeItem);
+				} else {
+					requestAnimationFrame(fall);
+				}
+			} else {
+				gameContainer.removeChild(lifeItem);
+			}
+		}
+
+		requestAnimationFrame(fall);
+		setTimeout(createLifeItem, Math.random() * 20000 + 30000); // Life item appears every 20-40 seconds
+}
 
 function isOverlapping(leftPosition, metaWidth) {
     const metas = document.querySelectorAll('.meta');
@@ -205,37 +297,19 @@ function loseLife() {
             gameOver();
         }
     }
-	// Add animation class to the chef
-    chef.classList.add('chef.damage');
-    // Remove the animation class after the animation ends
-    chef.addEventListener('animationend', () => {
-        chef.classList.remove('chef.damage');
-    }, { once: true });
 }
 
 function updateLivesDisplay() {
     const hearts = livesDisplay.querySelectorAll('span');
     hearts.forEach((heart, index) => {
-        if (index >= lives) {
-            heart.style.display = 'none'; // Oculta los corazones perdidos
-        } else {
-            heart.style.display = 'inline'; // Asegura que los corazones ganados sean visibles
-        }
         heart.classList.toggle('gray', index >= lives);
     });
 }
 
 function loseLifeharmful(){
 	lives--;
-	
-	// Add animation class to the chef
-    chef.classList.add('chef.damage');
-    // Remove the animation class after the animation ends
-    chef.addEventListener('animationend', () => {
-        chef.classList.remove('chef.damage');
-    }, { once: true });
 	if (lives >= 0) {
-		updateLivesDisplay();
+		livesDisplay.innerHTML = 'Lives: ' + '&#x2665;'.repeat(lives) + '<span style="color: gray;">&#x2665;</span>'.repeat(3 - lives);
 	}
 	if (lives === 0) {
 		gameOver();
@@ -245,7 +319,7 @@ function loseLifeharmful(){
 function gainLife() {
 		if (lives < 3) {
 			lives++;
-			updateLivesDisplay();
+			livesDisplay.innerHTML = 'Lives: ' + '&#x2665;'.repeat(lives) + '<span style="color: gray;">&#x2665;</span>'.repeat(3 - lives);
 		} else {
 			score += 10; // If lives are full, give points instead
 			scoreDisplay.textContent = `Score: ${score}`;
