@@ -51,7 +51,7 @@ function createRareItem() {
 }
 
 function createHarmfulItem() {
-    createFallingItem('harmful-item', harmfulSound, 0, Math.random() * level + 10000, loseLifeharmful, true);
+    createFallingItem('harmful-item', harmfulSound, 0, Math.random() * level + 5000, loseLifeharmful, true);
 }
 
 function createLifeItem() {
@@ -77,6 +77,9 @@ function createFallingItem(className, sound, scoreIncrement, delay, callback = n
         if (top < gameContainer.clientHeight) {
             item.style.top = `${top + fallSpeed}px`;
             if (isCollision(chef, item)) {
+				if(className == 'meta'){
+					sound.volume = 0.2;
+				}
                 sound.currentTime = 0;
                 sound.play();
                 score += scoreIncrement;
@@ -286,7 +289,10 @@ setTimeout(createHarmfulItem, Math.random() * 5000 + 5000); // Start harmful ite
 setTimeout(createLifeItem, Math.random() * 20000 + 10000); // Life item appears every 20-40 seconds
 /* setTimeout(increaseLevel, Math.random() * 5000); // Harmful item appears every 10-20 seconds */
 setInterval(() => {
-    fallSpeed += 0.2;
-    level -= 500;
+	if(level > 0)
+	{
+		fallSpeed += 1;
+		level -= 500;
+	}
 }, level);
 
